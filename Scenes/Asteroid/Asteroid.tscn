@@ -1,0 +1,45 @@
+[gd_scene load_steps=12 format=3 uid="uid://clv83pptkp1o6"]
+
+[ext_resource type="Script" path="res://Scenes/Asteroid/Scripts/Asteroid.gd" id="1_337ly"]
+[ext_resource type="Texture2D" uid="uid://cl5bwh5timb2v" path="res://Scenes/Asteroid/Sprites/AsteroidBig.png" id="1_ip8p3"]
+[ext_resource type="Script" path="res://Resources/AsteroidSize/AsteroidSize.gd" id="2_153hv"]
+[ext_resource type="Texture2D" uid="uid://dt7h2yetlp4tf" path="res://Scenes/Asteroid/Sprites/AsteroidSmall.png" id="3_jdk01"]
+[ext_resource type="Texture2D" uid="uid://bl3qib6hxtdyf" path="res://Scenes/Asteroid/Sprites/AsteroidMedium.png" id="4_6ojsp"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5xyto"]
+radius = 3.0
+
+[sub_resource type="Resource" id="Resource_ej37r"]
+script = ExtResource("2_153hv")
+texture = ExtResource("3_jdk01")
+shape = SubResource("CircleShape2D_5xyto")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_aiyha"]
+radius = 7.0
+
+[sub_resource type="Resource" id="Resource_p1qps"]
+script = ExtResource("2_153hv")
+texture = ExtResource("4_6ojsp")
+shape = SubResource("CircleShape2D_aiyha")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_5oge6"]
+radius = 14.0
+
+[sub_resource type="Resource" id="Resource_h6qwg"]
+script = ExtResource("2_153hv")
+texture = ExtResource("1_ip8p3")
+shape = SubResource("CircleShape2D_5oge6")
+
+[node name="Asteroid" type="Area2D"]
+collision_layer = 2
+script = ExtResource("1_337ly")
+asteroid_size_array = Array[ExtResource("2_153hv")]([SubResource("Resource_ej37r"), SubResource("Resource_p1qps"), SubResource("Resource_h6qwg")])
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+texture = ExtResource("1_ip8p3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_5oge6")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
