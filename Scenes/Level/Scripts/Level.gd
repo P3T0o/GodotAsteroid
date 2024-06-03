@@ -5,14 +5,20 @@ class_name Level
 @onready var gameover : Control = %GameOver
 @onready var border_rect = %BorderRect
 @onready var asteroids_container : Node2D = %Asteroids
+@onready var score_label : Label = %ValeurPoints
 var screen_with = ProjectSettings.get_setting("display/window/size/viewport_width")
 var screen_height = ProjectSettings.get_setting("display/window/size/viewport_height")
 
 var screen_size = Vector2(screen_with, screen_height)
 
+var score = 0
+
 @export var asteroid_scene : PackedScene
 @export var spawn_circle_radius = 580.0
 @export var asteroid_direction_variance = 45.0
+
+func _ready():
+	update_score_label()
 
 func spawn_asteroid_on_border():
 	var screen_center = screen_size / 2.0
@@ -48,6 +54,7 @@ func spawn_asteroid(pos: Vector2, dir: Vector2, size: Asteroid.SIZE):
 func _on_asteroid_destroyed(asteroid: Asteroid):
 	if asteroid.size > 0:
 		var nb_spawn = randi_range(2, 3)
+		add_points(1)
 		
 		for i in range(nb_spawn):
 			var rot_deg = 90.0 + randfn(0.0, deg_to_rad(asteroid_direction_variance))
@@ -57,6 +64,15 @@ func _on_asteroid_destroyed(asteroid: Asteroid):
 			var dir = asteroid.direction.rotated(rot)
 			
 			spawn_asteroid(asteroid.global_position, dir, asteroid.size -1)
+
+# Fonction pour mettre à jour le label avec le score actuel
+func update_score_label():
+	score_label.text = "SCORE: " + str(score)
+
+# Fonction pour ajouter des points au score
+func add_points(points: int):
+	score += points
+	update_score_label()
 
 func _on_spawn_timer_timeout():
 	spawn_asteroid_on_border()
