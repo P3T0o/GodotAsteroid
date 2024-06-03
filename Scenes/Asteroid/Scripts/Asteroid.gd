@@ -51,8 +51,6 @@ func update_size():
 func destroy():
 	destroyed.emit()
 	queue_free()
-	
-	
 
 func _on_body_entered(body):
 	if body is Player:

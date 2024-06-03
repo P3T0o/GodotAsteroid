@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://b1gd17xppa8ia"]
+[gd_scene load_steps=7 format=3 uid="uid://b1gd17xppa8ia"]
 
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/Level.gd" id="1_1xpwq"]
 [ext_resource type="PackedScene" uid="uid://ctmdskfvc04b4" path="res://Scenes/Player/player.tscn" id="1_l3sy1"]
 [ext_resource type="PackedScene" uid="uid://clv83pptkp1o6" path="res://Scenes/Asteroid/Asteroid.tscn" id="2_k1t2u"]
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/ProjectileFactory.gd" id="2_lhpvf"]
 [ext_resource type="Texture2D" uid="uid://bso4xs7j8nlac" path="res://Scenes/Level/Sprites/Background.png" id="5_d6f4o"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_scqdn"]
+size = Vector2(430, 270)
 
 [node name="Level" type="Node2D"]
 script = ExtResource("1_1xpwq")
@@ -104,7 +107,17 @@ text = "GAME OVER"
 layout_mode = 2
 text = "Retry"
 
+[node name="MapBoundary" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MapBoundary"]
+position = Vector2(215, 135)
+shape = SubResource("RectangleShape2D_scqdn")
+
 [connection signal="destroyed" from="Player" to="." method="_on_player_destroyed"]
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
 [connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="area_exited" from="MapBoundary" to="." method="_on_map_boundary_area_exited"]
+[connection signal="body_exited" from="MapBoundary" to="." method="_on_map_boundary_body_exited"]

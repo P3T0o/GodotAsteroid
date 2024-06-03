@@ -6,6 +6,7 @@ class_name Level
 @onready var border_rect = %BorderRect
 @onready var asteroids_container : Node2D = %Asteroids
 @onready var score_label : Label = %ValeurPoints
+
 var screen_with = ProjectSettings.get_setting("display/window/size/viewport_width")
 var screen_height = ProjectSettings.get_setting("display/window/size/viewport_height")
 
@@ -52,9 +53,15 @@ func spawn_asteroid(pos: Vector2, dir: Vector2, size: Asteroid.SIZE):
 
 
 func _on_asteroid_destroyed(asteroid: Asteroid):
+	if asteroid.size == 0:
+		add_points(3)
+	else: if asteroid.size == 1:
+		add_points(2)
+	else: if asteroid.size == 2:
+		add_points(1)
+
 	if asteroid.size > 0:
 		var nb_spawn = randi_range(2, 3)
-		add_points(1)
 		
 		for i in range(nb_spawn):
 			var rot_deg = 90.0 + randfn(0.0, deg_to_rad(asteroid_direction_variance))
@@ -84,3 +91,13 @@ func _on_button_pressed():
 
 func _on_player_destroyed():
 	gameover.show()
+
+
+func _on_map_boundary_body_exited(body):
+	if body is Player:
+		body.destroy()
+
+
+func _on_map_boundary_area_exited(area):
+	if area is Projectile:
+		area.destroy()
