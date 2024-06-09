@@ -1,0 +1,40 @@
+[gd_scene load_steps=6 format=3 uid="uid://dtd0x8yaq7ui5"]
+
+[ext_resource type="Texture2D" uid="uid://dton7dx6uwyxm" path="res://Scenes/Monkey/Sprites/Singe-Sheet-Animation-Idle.png" id="1_q8a0f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vrxt7"]
+atlas = ExtResource("1_q8a0f")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8br3n"]
+atlas = ExtResource("1_q8a0f")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d74fl"]
+atlas = ExtResource("1_q8a0f")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wod7w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vrxt7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8br3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_d74fl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="Monkey" type="CharacterBody2D"]
+rotation = -3.14159
+scale = Vector2(-0.8, -0.8)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wod7w")
+autoplay = "default"

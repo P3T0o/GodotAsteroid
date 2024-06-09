@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=3 uid="uid://b1gd17xppa8ia"]
+[gd_scene load_steps=9 format=3 uid="uid://b1gd17xppa8ia"]
 
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/Level.gd" id="1_1xpwq"]
 [ext_resource type="PackedScene" uid="uid://ctmdskfvc04b4" path="res://Scenes/Player/player.tscn" id="1_l3sy1"]
 [ext_resource type="PackedScene" uid="uid://clv83pptkp1o6" path="res://Scenes/Asteroid/Asteroid.tscn" id="2_k1t2u"]
 [ext_resource type="Script" path="res://Scenes/Level/Scripts/ProjectileFactory.gd" id="2_lhpvf"]
 [ext_resource type="Texture2D" uid="uid://bso4xs7j8nlac" path="res://Scenes/Level/Sprites/Background.png" id="5_d6f4o"]
+[ext_resource type="AudioStream" uid="uid://duoy2ibs7e6dk" path="res://Resources/Audios/Explosion.mp3" id="6_k2cjl"]
+[ext_resource type="PackedScene" uid="uid://dtd0x8yaq7ui5" path="res://Scenes/Monkey/Monkey.tscn" id="7_sk8so"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_scqdn"]
 size = Vector2(430, 270)
@@ -14,7 +16,7 @@ script = ExtResource("1_1xpwq")
 asteroid_scene = ExtResource("2_k1t2u")
 
 [node name="Player" parent="." instance=ExtResource("1_l3sy1")]
-position = Vector2(220, 135)
+position = Vector2(215, 135)
 accel_factor = 0.1
 
 [node name="ProjectileFactory" type="Node2D" parent="."]
@@ -60,17 +62,27 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ATHLayer/Control"]
-layout_mode = 0
-offset_left = 11.0
-offset_right = 79.0
-offset_bottom = 40.0
-
-[node name="ValeurPoints" type="Label" parent="ATHLayer/Control/HBoxContainer"]
+[node name="ValeurPoints" type="Label" parent="ATHLayer/Control"]
 unique_name_in_owner = true
 layout_mode = 2
+offset_left = 33.0
+offset_top = 10.0
+offset_right = 97.0
+offset_bottom = 33.0
 theme_override_font_sizes/font_size = 14
 text = "SCORE : 0"
+
+[node name="TimerLabel" type="Label" parent="ATHLayer/Control"]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 5.0
+offset_right = 425.0
+offset_bottom = 28.0
+theme_override_font_sizes/font_size = 10
+horizontal_alignment = 2
+
+[node name="TimerAlive" type="Timer" parent="ATHLayer/Control"]
+autostart = true
 
 [node name="GameOverLayer" type="CanvasLayer" parent="."]
 
@@ -96,18 +108,31 @@ grow_vertical = 2
 
 [node name="VBoxContainer" type="VBoxContainer" parent="GameOverLayer/GameOver/CenterContainer"]
 layout_mode = 2
-theme_override_constants/separation = 19
+theme_override_constants/separation = 28
 
-[node name="Label" type="Label" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+[node name="GameOverLabel" type="Label" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 30
 text = "GAME OVER"
+
+[node name="ValeurPointsFinal" type="Label" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 14
+text = "SCORE : 0"
+horizontal_alignment = 1
+
+[node name="TimeAliveFinal" type="Label" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 10
+text = "30 sec alive"
+horizontal_alignment = 1
 
 [node name="Button" type="Button" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Retry"
 
 [node name="MapBoundary" type="Area2D" parent="."]
+visible = false
 collision_layer = 8
 collision_mask = 5
 
@@ -115,9 +140,17 @@ collision_mask = 5
 position = Vector2(215, 135)
 shape = SubResource("RectangleShape2D_scqdn")
 
+[node name="AudioDestroy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("6_k2cjl")
+
+[node name="Monkey" parent="." instance=ExtResource("7_sk8so")]
+visible = false
+position = Vector2(19, 17)
+
 [connection signal="destroyed" from="Player" to="." method="_on_player_destroyed"]
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
 [connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="timeout" from="ATHLayer/Control/TimerAlive" to="." method="_on_timer_alive_timeout"]
 [connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
 [connection signal="area_exited" from="MapBoundary" to="." method="_on_map_boundary_area_exited"]
 [connection signal="body_exited" from="MapBoundary" to="." method="_on_map_boundary_body_exited"]

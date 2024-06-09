@@ -35,8 +35,13 @@ animations = [{
 "texture": SubResource("AtlasTexture_kk6ha")
 }],
 "loop": true,
-"name": &"default",
+"name": &"blue_ball",
 "speed": 10.0
+}, {
+"frames": [],
+"loop": true,
+"name": &"new_animation",
+"speed": 16.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lepe5"]
@@ -50,7 +55,8 @@ script = ExtResource("1_n8h7w")
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-4, 0)
 sprite_frames = SubResource("SpriteFrames_m0bfm")
-autoplay = "default"
+animation = &"blue_ball"
+autoplay = "blue_ball"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_lepe5")

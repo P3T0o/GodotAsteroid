@@ -11,6 +11,7 @@ enum SIZE {
 }
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
+@onready var audio_explosion: AudioStreamPlayer = $AudioExplosion
 
 @export var size : SIZE = SIZE.BIG:
 	set(value):

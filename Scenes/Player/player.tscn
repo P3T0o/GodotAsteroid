@@ -1,14 +1,112 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctmdskfvc04b4"]
+[gd_scene load_steps=22 format=3 uid="uid://ctmdskfvc04b4"]
 
-[ext_resource type="Texture2D" uid="uid://juipsu5tuphc" path="res://Scenes/Player/Sprites/Ship.png" id="1_h020n"]
+[ext_resource type="Texture2D" uid="uid://b7hr74bdvpr61" path="res://Scenes/Player/Sprites/Ship.png" id="1_h020n"]
 [ext_resource type="Script" path="res://Scenes/Player/Scripts/player.gd" id="1_tpqht"]
 [ext_resource type="PackedScene" uid="uid://ohbwir3wusp1" path="res://Scenes/Projectile/Projectile.tscn" id="2_gb3ju"]
+[ext_resource type="Texture2D" uid="uid://dbo5f2h21pxpe" path="res://Scenes/Player/Sprites/Weapon_1.png" id="4_rbitg"]
+[ext_resource type="AudioStream" uid="uid://b1gwc200wl7sc" path="res://Resources/Audios/Fire.mp3" id="4_wofng"]
+[ext_resource type="AudioStream" uid="uid://ccvtxqpf12d0s" path="res://Resources/Audios/Spawn.mp3" id="5_gogme"]
+[ext_resource type="AudioStream" uid="uid://duoy2ibs7e6dk" path="res://Resources/Audios/Explosion.mp3" id="7_3662i"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_vcnng"]
-radius = 5.0
+radius = 9.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4cafg"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f37jl"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(48, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6sdwt"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(96, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3dao"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(144, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yvnvn"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(192, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7624w"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(240, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v4yw6"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(288, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_axx0q"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(336, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o28vx"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(384, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rk1mx"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(432, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1x6mf"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(480, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eqdg3"]
+atlas = ExtResource("4_rbitg")
+region = Rect2(528, 0, 48, 48)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_os7nc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4cafg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f37jl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6sdwt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3dao")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yvnvn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7624w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v4yw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_axx0q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o28vx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rk1mx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1x6mf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eqdg3")
+}],
+"loop": false,
+"name": &"Fire",
+"speed": 90.0
+}]
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
+rotation = 1.5708
+scale = Vector2(-0.8, -0.8)
 collision_mask = 8
 script = ExtResource("1_tpqht")
 accel_factor = 0.06
@@ -16,8 +114,30 @@ projectile_scene = ExtResource("2_gb3ju")
 max_speed = 250.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = 1
+scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_h020n")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-3, 0)
+position = Vector2(-3.75, 4.76837e-07)
 shape = SubResource("CircleShape2D_vcnng")
+
+[node name="AnimatedWeapon" type="AnimatedSprite2D" parent="."]
+position = Vector2(-1.25, -4.76837e-07)
+rotation = 1.5708
+sprite_frames = SubResource("SpriteFrames_os7nc")
+animation = &"Fire"
+frame = 11
+frame_progress = 1.0
+
+[node name="AudioFire" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_wofng")
+pitch_scale = 1.5
+max_polyphony = 10
+
+[node name="AudioSpawn" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_gogme")
+autoplay = true
+
+[node name="AudioDestroy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_3662i")
