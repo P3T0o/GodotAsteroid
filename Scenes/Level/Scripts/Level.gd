@@ -128,3 +128,12 @@ func _on_timer_alive_timeout():
 		timer_sec = 0
 		timer_min += 1
 		timer_label.text = str(timer_min) + " min " + str(timer_sec)
+
+
+func _on_back_to_lobby_pressed():
+	change_scene("res://Scenes/Lobby/Lobby.tscn")
+
+func change_scene(scene_path: String) -> void:
+	var error = get_tree().change_scene_to_file(scene_path)
+	if error != OK:
+		print("Erreur lors du changement de scène : %s" % str(error))

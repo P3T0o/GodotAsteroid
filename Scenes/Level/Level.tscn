@@ -127,9 +127,13 @@ theme_override_font_sizes/font_size = 10
 text = "30 sec alive"
 horizontal_alignment = 1
 
-[node name="Button" type="Button" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+[node name="Retry" type="Button" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
 layout_mode = 2
 text = "Retry"
+
+[node name="BackToLobby" type="Button" parent="GameOverLayer/GameOver/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Back to lobby"
 
 [node name="MapBoundary" type="Area2D" parent="."]
 visible = false
@@ -151,6 +155,7 @@ position = Vector2(19, 17)
 [connection signal="projectile_fired" from="Player" to="ProjectileFactory" method="spawn_projectile"]
 [connection signal="timeout" from="Asteroids/SpawnTimer" to="." method="_on_spawn_timer_timeout"]
 [connection signal="timeout" from="ATHLayer/Control/TimerAlive" to="." method="_on_timer_alive_timeout"]
-[connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/Retry" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="GameOverLayer/GameOver/CenterContainer/VBoxContainer/BackToLobby" to="." method="_on_back_to_lobby_pressed"]
 [connection signal="area_exited" from="MapBoundary" to="." method="_on_map_boundary_area_exited"]
 [connection signal="body_exited" from="MapBoundary" to="." method="_on_map_boundary_body_exited"]
